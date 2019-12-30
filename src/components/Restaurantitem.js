@@ -90,6 +90,8 @@ class Restaurantitem extends Component{
          
       }
     }
+
+
    // this.setState({restaurantItemList})
       axios.post(''+id+'/addOrder/',List).then(response=>{
       console.log(response)
@@ -98,6 +100,12 @@ class Restaurantitem extends Component{
       console.log(error)
     })
     
+  }
+
+  decrementCount =(items) =>{
+    const {restaurantItemList}=this.state;
+    items.count -=1;
+    this.setState({restaurantItemList})
   }
 
   
@@ -116,12 +124,14 @@ class Restaurantitem extends Component{
     // else items.count += 1; 
      if(!items.count) items.count=0;
      items.count += 1; 
+
     // else items.count +=1;
     // index=items.id;
     //this.setState({restaurantItemList:restaurantItemList}) 
     //for(let i=0;i<this.state.restaurantItemList.length;i++){
     //if(items.id==this.state.restaurantItemList[i].id){
     this.setState({restaurantItemList})
+    
     //   }  
     // }
     console.log(items)
@@ -136,8 +146,9 @@ class Restaurantitem extends Component{
         {this.props.history.location.state.SecondFlag ?
         <button type="button" className="btn btn-danger bsize" onClick ={() => {this.deleteItem(items)}}>Delete</button> : null }
         <button type="button" className="btn btn-warning bsize" onClick={ ()=>{this.incrementCount(items)}}>
-        {items.count > 0 ? items.count : 'Add'}
+        {items.count > 0 ? items.count : '+'}
         </button>   
+        <button type="button" className="btn btn-warning bsize" onClick ={()=>{this.decrementCount(items)}}>-</button>
         <div className="card-body div">
         <label>Item</label>
         <h5>{items.nameofitem}</h5>
@@ -155,6 +166,9 @@ class Restaurantitem extends Component{
     render(){
         console.log("...........")
         console.log(this.props.history.location.state.SecondFlag)
+        const check=this.state.restaurantItemList.filter((check) => !!check.count)
+          
+        
         return(
           <div className="App">
           <h1 style={{color:"orange"}}  className="size">Swiggy </h1>
@@ -172,7 +186,7 @@ class Restaurantitem extends Component{
               {this.renderRestaurant()}
             
           </div>
-          <button className="btn btn-dark" onClick={this.handleClick}>SHOW ORDER</button>   
+        { check[0]== null ? null:<button className="btn btn-dark" onClick={this.handleClick}>SHOW ORDER</button>   }
           <ItemModal modalIsOpen={this.state.modalIsOpen}   onRequestClose={this.onRequestClose} submitData={this.submitData} />
           <Ordermodel modalIsOpen={this.state.modalIsOpen}  onRequestClose={this.onRequestClose}  restaurantItemList={this.state.restaurantItemList} placeOrder={this.placeOrder}/>
           </div>               
