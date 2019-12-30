@@ -12,12 +12,18 @@ class Restaurantitem extends Component{
             address:"",
             restaurantItemList: [],
             modalIsOpen: false,
+            modalOpen:false
         }
   }
 
   handleClick = (event) =>{
     this.setState({ modalIsOpen:true});
   }
+
+  handleClickItem = (event) =>{
+    this.setState({ modalOpen:true});
+  }
+
 
   
   onRequestClose =() =>{
@@ -145,10 +151,10 @@ class Restaurantitem extends Component{
         <div className="card">
         {this.props.history.location.state.SecondFlag ?
         <button type="button" className="btn btn-danger bsize" onClick ={() => {this.deleteItem(items)}}>Delete</button> : null }
-        <button type="button" className="btn btn-warning bsize" onClick={ ()=>{this.incrementCount(items)}}>
+        <button type="button" className="btn btn-warning bs" onClick={ ()=>{this.incrementCount(items)}}>
         {items.count > 0 ? items.count : '+'}
         </button>   
-        <button type="button" className="btn btn-warning bsize" onClick ={()=>{this.decrementCount(items)}}>-</button>
+        <button type="button" className="btn btn-warning bs" onClick ={()=>{this.decrementCount(items)}}>-</button>
         <div className="card-body div">
         <label>Item</label>
         <h5>{items.nameofitem}</h5>
@@ -172,7 +178,7 @@ class Restaurantitem extends Component{
         return(
           <div className="App">
           <h1 style={{color:"orange"}}  className="size">Swiggy </h1>
-          {this.props.history.location.state.SecondFlag ? <button className="btn btn-dark btn-lg right"  onClick={this.handleClick}>Add Items</button> :null }
+          {this.props.history.location.state.SecondFlag ? <button className="btn btn-dark btn-lg right"  onClick={this.handleClickItem}>Add Items</button> :null }
          
           <div className="container div ">
           
@@ -187,7 +193,7 @@ class Restaurantitem extends Component{
             
           </div>
         { check[0]== null ? null:<button className="btn btn-dark" onClick={this.handleClick}>SHOW ORDER</button>   }
-          <ItemModal modalIsOpen={this.state.modalIsOpen}   onRequestClose={this.onRequestClose} submitData={this.submitData} />
+          <ItemModal modalIsOpen={this.state.modalOpen}   onRequestClose={this.onRequestClose} submitData={this.submitData} />
           <Ordermodel modalIsOpen={this.state.modalIsOpen}  onRequestClose={this.onRequestClose}  restaurantItemList={this.state.restaurantItemList} placeOrder={this.placeOrder}/>
           </div>               
            
